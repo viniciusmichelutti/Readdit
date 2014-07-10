@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset="utf-8" />
+        <title>Readdit</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/loading.css" />
+        <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    </head>
+	<body>
+	
+        <div id="sidebar">
+			<img src="#" />
+			
+			<h1><i class="fa fa-bullseye"></i> Recently Viewed</h1>
+			<div id="recently" data-bind="foreach: lastVisited">
+				<p>
+					<a href="#" data-bind="text: $data, click: $root.getSubmissions"></a>
+				</p>
+			</div>
+		</div>
+
+        <div id="topbar">
+            <form action="#" method="POST" id="redditForm" data-bind="submit: searchReddit">
+                <input type="text" name="searchsubreddit" id="searchsubreddit" placeholder="Search for any /r/subreddit..." />
+				<input type="submit" id="submitsearch" value="" />
+            </form>
+			<a href="#" data-bind="click: goToReddit"><i class="fa fa-reddit"></i> Open in Reddit</a>
+        </div>
+        
+        <div id="content">
+		
+			<div id="subreddits" data-bind="foreach: popularSubReddits">			
+				<div class="submission clearfix" data-bind="with: data">
+					<div class="subImg">
+						<img data-bind="attr: { src: header_img }" />
+					</div>
+					<div class="subDetail">
+						<span class="domain" data-bind="text: title"></span>
+						<a class="titleLink" href="#" data-bind="text: url, click: $root.getSubmissions"></a>
+						<span class="url" data-bind="text: public_description"></span>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+            <div id="submissions" data-bind="foreach: submissions">
+				<div class="submission clearfix" data-bind="with: data">
+					<div class="votes">
+						<a href="#" class="upvote positive"><i class="fa fa-chevron-up"></i></a>
+						<a href="#" class="downvote negative"><i class="fa fa-chevron-down"></i></a>
+						<span data-bind="text: score, css: $root.scoreClass(score)"></span>
+					</div>
+					<div class="subImg" data-bind="if: thumbnail != ''">
+						<img data-bind="attr: { src: $root.getThumbnail(thumbnail) }" />
+					</div>
+					<div class="subDetail">
+						<span class="domain" data-bind="text: domain"></span>
+						<!-- ko if: is_self -->
+							<a class="titleLink" data-bind="attr: { href: url }, text: title"></a>
+						<!-- /ko -->
+						<!-- ko if: !is_self -->
+							<a class="titleLink" target="_blank" data-bind="attr: { href: url }, text: title"></a>
+						<!-- /ko -->
+						<a href="{{permalink}}" class="numComments" data-link="commentThread">
+							<i class="fa fa-comments"></i> <span data-bind="text: num_comments"></span>
+						</a>
+						<a href="#" class="author"><i class="fa fa-user"></i> <span data-bind="text: author"></span></a>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+        </div>
+        
+        <script type="text/template" id="loadingTpl">
+            <div id="loading">
+                <h3>Loading submissions...</h3>
+                <div id="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+        </script>
+	
+		<script src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/sammy-latest.min.js"></script>
+		<script src="js/knockout-3.1.0.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/appViewModel.js"></script>
+	</body>
+</html>

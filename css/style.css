@@ -1,0 +1,52 @@
+@import url(reset.css)
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+body { background-color:#FFF; font-family: "Open Sans", Helvetica, Arial, sans-serif; }
+
+h1 { font-size:18px; }
+a, a:visited { text-decoration:none; color:#EB8A7D; }
+a:hover { color:#c96051; }
+input[type="text"] { padding:10px; }
+
+#sidebar { width:250px; background-color:#35363B; color:#fff; position:fixed; top:0; bottom:0; left:0; padding:10px; border-right:1px solid #ccc; }
+#topbar { position:fixed; top:0; left:270px; right:0; z-index:1; background-color:#F5F5F5; border-bottom:1px solid #ccc; padding:10px; }
+#topbar #redditForm { float:left; width:50%; }
+#topbar #searchsubreddit { width:90%; background:#fff; color:#333; border:1px solid #CCC; }
+#topbar #submitsearch { position:absolute; top:14px; width:16px; height:16px; border-radius:3px; border:none; padding:17px; margin-left:5px; cursor:pointer; background:url(../imgs/zoom.png) center no-repeat #3767B9; }
+#topbar #submitsearch:hover { box-shadow:0px 1px 1px #000; }
+#topbar a { float:right; margin-top:15px; margin-right:5px; }
+#content { position:absolute; left:270px; top:80px; right:0; padding:10px; }
+
+.submission { padding:15px; background-color:#fff; display:block; }
+.votes, .subImg { float:left; }
+.votes { width:75px; text-align:center; line-height:75px; font-weight:bold; margin-right:7px; position:relative; }
+.votes a i { position:absolute; left:31px; }
+.votes a.upvote i { top:3px; }
+.votes a.downvote i { bottom:3px; }
+.subImg { margin-right:7px; }
+.subImg img { width:75px; height:75px; }
+.subDetail { display:table-cell; }
+.subDetail .domain { display:block; text-transform:uppercase; font-size:11px; color:#b5b5b5; }
+.subDetail .titleLink { font-size:16px; color:#333; margin:5px 0; text-decoration:none; font-weight:bold; display:block; }
+.numComments, .author { font-size:12px; margin-right:7px; }
+.positive { color:#3c9f43 !important; }
+.negative { color:#bc2e2e !important; }
+
+.clear { clear:both; }
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    display: inline-block;
+}
+html[xmlns] .clearfix {
+    display: block;
+}
+* html .clearfix {
+    height: 1%;
+}
