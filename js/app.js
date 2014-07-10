@@ -69,7 +69,7 @@ app.Storage = {
 			}
 		}
 		
-		viewed.push(subreddit);
+		viewed.unshift(subreddit);
 		localStorage.setItem('lastViewed', JSON.stringify(viewed));
 	},
 	
