@@ -62,7 +62,7 @@
 						<!-- ko if: !is_self -->
 							<a class="titleLink" target="_blank" data-bind="attr: { href: url }, text: title"></a>
 						<!-- /ko -->
-						<a href="{{permalink}}" class="numComments" data-link="commentThread">
+						<a class="numComments" href="#" data-bind="click: $root.getComments" />
 							<i class="fa fa-comments"></i> <span data-bind="text: num_comments"></span>
 						</a>
 						<a href="#" class="author"><i class="fa fa-user"></i> <span data-bind="text: author"></span></a>
@@ -70,8 +70,32 @@
 				</div>
 				<div class="clear"></div>
 			</div>
+            
+            <div id="thread" data-bind="with: thread">
+                <div class="threadTitle">
+                    <h1 data-bind="text: title.title"></h1>
+                </div>
+                
+                <ul class="threadComment" data-bind="foreach: comments">
+                    <li data-bind="with: data">
+                        <p data-bind="text: body"></p>
+                        <!-- ko if: replies != '' -->
+                        <ul class="testChildren" data-bind="template: { name: 'innerComments', foreach: replies.data.children }"></ul>
+                        <!-- /ko -->
+                    </li>
+                </ul>
+            </div>
         </div>
         
+        <script type="text/html" id="innerComments">
+            <li data-bind="with: data">
+                <p data-bind="text: body"></p>
+                <!-- ko if: replies != '' -->
+                <ul class="testChildren" data-bind="template: { name: 'innerComments', foreach: replies.data.children }"></ul>
+                <!-- /ko -->
+            </li>
+        </script>
+    
         <script type="text/template" id="loadingTpl">
             <div id="loading">
                 <h3>Loading submissions...</h3>

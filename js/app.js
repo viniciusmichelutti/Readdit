@@ -38,6 +38,25 @@ app.API = {
 		return submissions;
     },
     
+    loadCommentsFromThread: function(thread) {
+        var thread;
+        
+        $.ajax({
+            type: 'GET',
+            url: this.prefix + thread + '.json',
+			async: false,
+            success: function(data) {
+				thread = data;
+            },
+            error: function(data) {
+				// @TODO show to the user
+                console.log("Thread not found!");
+            }
+        });
+        
+        return thread;
+    }
+    
 };
 
 app.Transitions = {

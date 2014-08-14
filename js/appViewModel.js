@@ -2,6 +2,7 @@ function RedditViewModel() {
 
 	this.popularSubReddits = ko.observable();
 	this.submissions = ko.observable();
+    this.thread = ko.observable();
 	this.responses = ko.observable(); // To show comments, not implemented yet!
 	this.lastVisited = ko.observable(app.Storage.getRecentlyViewed());
 
@@ -16,6 +17,10 @@ function RedditViewModel() {
 		subreddit = subreddit.replace('/r/', '').replace('/', '');
 		location.hash = '/r/' + subreddit;
 	};
+    
+    this.getComments = function(thread) {
+        location.hash = thread.permalink;
+    };
 	
 	this.goToReddit = function() {
 		window.location.href = 'http://www.reddit.com' + location.hash.replace('#', '');
@@ -37,27 +42,43 @@ function RedditViewModel() {
 	
 	var _this = this;
 	Sammy(function() {
-		this.get('#/r/:subreddit', function() {
+        
+		this.get('#subreddits', function() {
+			_this.submissions(null);
+            _this.thread(null);
+			_this.popularSubReddits(app.API.loadPopularSubs());
+		});
+
+        this.get(/\#\/r\/.*\/comments\/.*/, function() {
+            var commentsUrl = this.path.split('#')[1];
+            
+            _this.popularSubReddits(null);
+            _this.submissions(null);
+            
+            var threadLoaded = app.API.loadCommentsFromThread(commentsUrl);
+            var thread = {
+                title: threadLoaded[0].data.children[0].data,
+                comments: threadLoaded[1].data.children,
+            };
+            _this.thread(thread);
+        });
+        
+        this.get('#/r/:subreddit', function() {
 			var subreddit = this.params.subreddit;
 			$('#searchsubreddit').val(subreddit); // Fill in the search field
 			
 			_this.popularSubReddits(null);
+            _this.thread(null);
 			_this.submissions(app.API.loadSubmissionsFromReddit(subreddit).data.children);
 			
 			app.Storage.addRecentlyView(subreddit);
 			_this.lastVisited(app.Storage.getRecentlyViewed());
-			
-			// console.log(_this.submissions());
 		});
 		
-		this.get('#subreddits', function() {
-			_this.submissions(null);
-			_this.popularSubReddits(app.API.loadPopularSubs());
-		});
-		
-		this.get('', function() {
+        this.get('', function() {
 			this.app.runRoute('get', '#subreddits');
 		});
+		
 	}).run();
 
 }
